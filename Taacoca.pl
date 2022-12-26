@@ -2,9 +2,13 @@
 
 % define the board
 board([[w,w,w,w,w],
-       [_,w,w,_,_],
-       [_,_,w,w,_],
-       [_,_,b,b,_],
+       [_,w,w,w,w,_],
+       [_,_,w,w,w,_,_],
+       [_,_,_,_,_,_,_,_],
+       [_,_,_,_,_,_,_,_,_],
+       [_,_,_,_,_,_,_,_],
+       [_,_,b,b,b,_,_],
+       [_,b,b,b,b,_],
        [b,b,b,b,b]]).
 
 % define the initial number of stones for each player
