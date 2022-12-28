@@ -20,13 +20,18 @@ dir(w, 1, 0).
 dir(b, -1, 0).
 
 % define the win condition for each player
-win(w, 5).
-win(b, 1).
+win(w, 8).
+win(b, 0).
 
 % define the possible movements for a given stone
 move([X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y.
+move([X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
 move([X,Y], [X1,Y1]) :- X1 is X, Y1 is Y+1.
+move([X,Y], [X1,Y1]) :- X1 is X, Y1 is Y-1.
 move([X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y+1.
+move([X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y-1.
+move([X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y+1.
+move([X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y-1.
 
 % define the game loop
 game(Board, Player, NumMoves) :-
@@ -91,9 +96,9 @@ cell_empty(Board, X, Y) :-
 % define the function that checks if a player has no more moves
 no_moves(Board, Player) :-
     findall(Stone, (member(Row, Board), member(Player, Row), Stone = [X,Y]), AllStones),
-    forall(member(Stone, AllStones), \+move(Stone, _)).
+    forall(member(Stone, AllStones), \+move(Stone, _)). 
 
-% define the function that checks if a player has reached the opponent's home row
+% define the function that checks if a player has reached the opponent s home row
 win_condition(Board, Player) :-
     win(Player, WinRow),
     findall(X, (member([X,_], Board), member(Player, [X,_])), Rows),
