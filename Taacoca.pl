@@ -1,7 +1,17 @@
+/*
 :- consult('display.pl').
 :- consult('play.pl').
 :- consult('input.pl').
-:- use_module(library(clpfd)).
+:- consult('logic.pl').
+:- consult('bot.pl').
+*/
+:-dynamic board/1.
+
+:-[input], [play], [display], [logic], [bot].
+:-use_module(library(random)).
+:-use_module(library(clpfd)).
+:-use_module(library(lists)).
+:-use_module(library(system)).
 
 % Main function
 % Calls the initial functions

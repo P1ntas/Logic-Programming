@@ -1,13 +1,21 @@
 % define the board
 board([[b,b,b,b,b],
-       [_,b,b,b,b,_],
-       [_,_,b,b,b,_,_],
-       [_,_,_,_,_,_,_,_],
-       [_,_,_,_,_,_,_,_,_],
-       [_,_,_,_,_,_,_,_],
-       [_,_,w,w,w,_,_],
-       [_,w,w,w,w,_],
+      [_,b,b,b,b,_],
+     [_,_,b,b,b,_,_],
+    [_,_,_,_,_,_,_,_],
+   [_,_,_,_,_,_,_,_,_],
+    [_,_,_,_,_,_,_,_],
+     [_,_,w,w,w,_,_],
+      [_,w,w,w,w,_],
        [w,w,w,w,w]]).
+
+
+% define the function that displays the board
+display_board(Board) :-
+    maplist(writeln, Board).
+
+
+
 
 /*
 % Prints Main Menu
