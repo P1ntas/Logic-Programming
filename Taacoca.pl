@@ -1,11 +1,11 @@
-/*
+
 :- consult('display.pl').
 :- consult('play.pl').
 :- consult('input.pl').
 :- consult('logic.pl').
 :- consult('bot.pl').
-*/
-:-dynamic board/1.
+
+%:-dynamic board/1.
 
 :-[input], [play], [display], [logic], [bot].
 :-use_module(library(random)).
