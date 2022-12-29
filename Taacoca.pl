@@ -5,8 +5,7 @@
 :- consult('logic.pl').
 :- consult('bot.pl').
 
-%:-dynamic board/1.
-
+%
 :-[input], [play], [display], [logic], [bot].
 :-use_module(library(random)).
 :-use_module(library(clpfd)).
