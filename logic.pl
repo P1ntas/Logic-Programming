@@ -36,7 +36,7 @@ select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
 
 % checks if these coordinates are valid
 check_coord(Board, Player, X, Y) :-
-    traverse_matrix(Board, X, Y, Player).
+    traverse_matrix(Board, X, Y, Player), !.
 
 check_coord(Board, Player, X, Y) :-
     format('Invalid coordinates! You must select your own pieces: "~w" \n\n', Player),
@@ -45,12 +45,27 @@ check_coord(Board, Player, X, Y) :-
 
 traverse_matrix(Matrix, X, Y, Char) :-
     nth0(Y, Matrix, Row),
-    nth0(X, Row, Char).
+    nth0(X, Row, Element),
+    format(' ~w ', Row),
+    format(' ~w ', Element),
+    Element == Char.
 
 
-% define the function that moves the selected stones
-move_stones(Board, Stones, NewBoard) :-
-    maplist(update_board(Board, Stones), NewBoard).
+movepiece(Board, FromX, FromY, ToX, ToY, NewBoard) :-
+  nth0(FromY, Board, Row),
+  nth0(FromX, Row, Piece),
+  delete(Row, Piece, NewRow),
+  insert(NewRow, '_', FromX),
+  delete(Board, Row, IntermediateBoard),
+  nth0(ToY, IntermediateBoard, ToRow),
+  delete(IntermediateBoard, ToRow, IntermediateBoard2),
+  insert(ToRow, Piece, NewToRow),
+  insert(IntermediateBoard2, NewToRow, NewIntermediateBoard),
+  nth0(FromY, NewIntermediateBoard, NewFromRow),
+  insert(NewIntermediateBoard, NewFromRow, NewBoard).
+
+
+
 
 % define the function that updates a single cell of the board
 update_board(Board, Stones, NewValue, [X,Y]) :-

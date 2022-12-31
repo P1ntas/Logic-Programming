@@ -7,6 +7,7 @@ code_number(53, 5).
 code_number(54, 6).
 code_number(55, 7).
 code_number(56, 8).
+code_number(57, 9).
 
 
 read_number(LowerBound, UpperBound, N):-
@@ -33,16 +34,17 @@ check_col(AsciiCol, NumCol, SizeX):-
   code_number(AsciiCol, NumCol),
   NumCol < SizeX, NumCol >= 0, skip_line.
 
-/*read_number(Number) :-
-    write('Enter a number: '),
-    read_line_to_codes(user_input, Codes),
-    number_codes(Number, Codes).*/
 
 check_col(_, NumCol, SizeX):-
   format('Invalid column! It must be a number between 0 - ~d \n', SizeX-1),
   skip_line,
   read_col(Col, SizeX),
   check_col(Col, NumCol, SizeX).
+
+/*read_number(Number) :-
+    write('Enter a number: '),
+    read_line_to_codes(user_input, Codes),
+    number_codes(Number, Codes).*/
 
 read_row(Row, SizeY):-
   format('Pick a row (0 - ~d) : ', SizeY-1),
