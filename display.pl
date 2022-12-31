@@ -1,46 +1,29 @@
 % define the board
-board([[w,w,w,w,w],
-       [e,w,w,w,w,e],
-       [e,e,w,w,w,e,e],
-       [e,e,e,e,e,e,e,e],
-       [e,e,e,e,e,e,e,e,e],
-       [e,e,e,e,e,e,e,e],
-       [e,e,b,b,b,e,e],
-       [e,b,b,b,b,e],
-       [b,b,b,b,b]]).
+board([
+[' ',' ',' ',' ',' ','_','_','_','_','_','_','_','_','_',' ',' ',' ',' ',' '],
+[' ',' ',' ',' ','|','o','|','o','|','o','|','o','|','o','|',' ',' ',' ',' '],
+[' ',' ',' ','|','_','|','o','|','o','|','o','|','o','|','_','|',' ',' ',' '],
+[' ',' ','|','_','|','_','|','o','|','o','|','o','|','_','|','_','|',' ',' '],
+[' ','|','_','|','_','|','_','|','_','|','_','|','_','|','_','|','_','|',' '],
+['|','_','|','_','|','_','|','_','|','_','|','_','|','_','|','_','|','_','|'],
+[' ','|','_','|','_','|','_','|','_','|','_','|','_','|','_','|','_','|',' '],
+[' ',' ','|','_','|','_','|','+','|','+','|','+','|','_','|','_','|',' ',' '],
+[' ',' ',' ','|','_','|','+','|','+','|','+','|','+','|','_','|',' ',' ',' '],
+[' ',' ',' ',' ','|','+','|','+','|','+','|','+','|','+','|',' ',' ',' ',' ']
+]).
 
 
-% Prints the board on the terminal.
+board(Board).
+
 print_board(Board) :-
-    print_board(Board, 1).
+    board(Board),
+    maplist(print_row, Board), true.
 
-% Recursive helper for print_board/1.
-%printboard([], ).
-print_board([Row|Rows], RowNum) :-
-    print_row(Row, RowNum),
-    RowNum2 is RowNum + 1,
-    print_board(Rows, RowNum2).
 
-% Prints a row of the board on the terminal.
-print_row(Row, RowNum) :-
-    (   RowNum mod 2 =:= 1
-    ->  Offset = '   '
-    ;   Offset = ' '
-    ),
-    write(Offset),
-    print_cells(Row),
+print_row(Row) :-
+    maplist(format("~w "), Row),
     nl.
 
-print_cells([]).
-print_cells([Cell|Cells]) :-
-    (   Cell = b
-    ->  write(' b ')
-    ;   Cell = w
-    ->  write(' w ')
-    ;   Cell = e
-    ->  write(' e ')
-    ),
-    print_cells(Cells).
 
 /*
 mainMenu1:-
@@ -119,8 +102,8 @@ play_menu:-
     write('3 - Computer vs Computer'), nl.
 
 % Difficulty menu
-difficulty_menu(GameMode):-
-    write('Select difficulty:'), nl,
+difficulty_menu(Bot):-
+    format('Select difficulty ~w:', Bot), nl,
     write('1 - Easy'), nl,
     write('2 - Hard'), nl.
 

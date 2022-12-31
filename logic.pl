@@ -21,17 +21,13 @@ move([X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y+1.
 move([X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y-1.
 
 % define the function that selects the stones to move
-select_stones(Board, Player, NumMoves, Stones) :-
-    findall(Stone, (member(Row, Board), member(Player, Row), Stone = [X,Y]), AllStones),
-    length(AllStones, NumAllStones),
-    (
-        NumMoves > NumAllStones ->
-        Stones = AllStones;
-        (
-            select_n(NumMoves, AllStones, Stones)
-        )
-    ).
-
+select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
+    read_input(19, 10, X1, Y2),
+    check_coord(X, Y),
+    read_input(19, 10, X2, Y2),
+    check_coord(X1, Y2),
+    read_input(19, 10, X3, Y3),
+    check_coord(X3, Y3).
 
 % define the function that moves the selected stones
 move_stones(Board, Stones, NewBoard) :-

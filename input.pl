@@ -19,36 +19,41 @@ read_number(LowerBound, UpperBound, N):-
   write('Not a valid number!\n'), skip_line,
   read_number(LowerBound, UpperBound, N).
 
-read_input(Size, X, Y):-
-  read_col(Col, Size),
-  check_col(Col, X, Size),
-  read_row(Row, Size),
-  check_row(Row, Y, Size).
+read_input(SizeX, SizeY, X, Y):-
+  read_col(Col, SizeX),
+  check_col(Col, X, SizeX),
+  read_row(Row, SizeY),
+  check_row(Row, Y, SizeY).
 
-read_col(Col, Size):-
-  format('Pick a column (0 - ~d) : ', Size-1),
+read_col(Col, SizeX):-
+  format('Pick a column (0 - ~d) : ', SizeX-1),
   get_code(Col).
 
-check_col(AsciiCol, NumCol, Size):-
+check_col(AsciiCol, NumCol, SizeX):-
   code_number(AsciiCol, NumCol),
-  NumCol < Size, NumCol >= 0, skip_line.
+  NumCol < SizeX, NumCol >= 0, skip_line.
 
-check_col(_, NumCol, Size):-
-  format('Invalid column! It must be a number between 0 - ~d \n', Size-1),
+/*read_number(Number) :-
+    write('Enter a number: '),
+    read_line_to_codes(user_input, Codes),
+    number_codes(Number, Codes).*/
+
+check_col(_, NumCol, SizeX):-
+  format('Invalid column! It must be a number between 0 - ~d \n', SizeX-1),
   skip_line,
-  read_col(Col, Size),
-  check_col(Col, NumCol, Size).
+  read_col(Col, SizeX),
+  check_col(Col, NumCol, SizeX).
 
-read_row(Row, Size):-
-  format('Pick a row (0 - ~d) : ', Size-1),
+read_row(Row, SizeY):-
+  format('Pick a row (0 - ~d) : ', SizeY-1),
   get_code(Row).
 
-check_row(AsciiRow, NumRow, Size):-
+check_row(AsciiRow, NumRow, SizeY):-
   code_number(AsciiRow, NumRow),
-  NumRow < Size, NumRow >= 0, skip_line.
+  NumRow < SizeY, NumRow >= 0, skip_line.
 
-  check_row(_, NumRow, Size):-
-  format('Invalid row! It must be a number between 0 - ~d \n', Size-1),
+  check_row(_, NumRow, SizeY):-
+  format('Invalid row! It must be a number between 0 - ~d \n', SizeY-1),
   skip_line,
-  read_row(Row, Size),
-  check_row(Row, NumRow, Size).
+  read_row(Row, SizeY),
+  check_row(Row, NumRow, SizeY).
