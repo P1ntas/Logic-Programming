@@ -1,3 +1,29 @@
+% Handle main menu input
+handle_input(1):- play_menu.
+handle_input(2):- display_rules.
+handle_input(3):- exit.
+
+exit:-
+    abort.
+
+% Handle play menu input
+handle_play_input(1):- play_pvp.
+handle_play_input(2):- difficulty_menu(player_vs_computer).
+handle_play_input(3):- difficulty_menu(computer_vs_computer).
+
+
+% Handle difficulty menu input
+handle_difficulty_input(1, GameMode):- play(GameMode, easy).
+handle_difficulty_input(2, GameMode):- play(GameMode, hard).
+
+
+% Start game
+play(pvp, _):- play_pvp.
+play(player_vs_computer, Difficulty):- play_pvc(Difficulty).
+play(computer_vs_computer, Difficulty):- play_cvc(Difficulty).
+
+
+
 % define the game loop
 game(Board, Player, NumMoves) :-
     stones(Player, NumStones),
