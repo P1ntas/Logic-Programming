@@ -20,14 +20,33 @@ move([X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y-1.
 move([X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y+1.
 move([X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y-1.
 
+
 % define the function that selects the stones to move
 select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
-    read_input(19, 10, X1, Y2),
-    check_coord(X, Y),
+    write('Choosing the coordinates for your first piece: \n\n'),
+    read_input(19, 10, X1, Y1),
+    check_coord(Board, Player, X1, Y1),
+    write('Choosing the coordinates for your second piece: \n\n'),
     read_input(19, 10, X2, Y2),
-    check_coord(X1, Y2),
+    check_coord(Board, Player, X2, Y2),
+    write('Choosing the coordinates for your third piece: \n\n'),
     read_input(19, 10, X3, Y3),
-    check_coord(X3, Y3).
+    check_coord(Board, Player, X3, Y3).
+
+
+% checks if these coordinates are valid
+check_coord(Board, Player, X, Y) :-
+    traverse_matrix(Board, X, Y, Player).
+
+check_coord(Board, Player, X, Y) :-
+    format('Invalid coordinates! You must select your own pieces: "~w" \n\n', Player),
+    read_input(19, 10, X, Y),
+    check_coord(Board, Player, X, Y).
+
+traverse_matrix(Matrix, X, Y, Char) :-
+    nth0(Y, Matrix, Row),
+    nth0(X, Row, Char).
+
 
 % define the function that moves the selected stones
 move_stones(Board, Stones, NewBoard) :-

@@ -17,7 +17,7 @@ board(Board).
 
 print_board(Board) :-
     board(Board),
-    maplist(print_row, Board), true.
+    maplist(print_row, Board).
 
 
 print_row(Row) :-
