@@ -41,11 +41,6 @@ check_col(_, NumCol, SizeX):-
   read_col(Col, SizeX),
   check_col(Col, NumCol, SizeX).
 
-/*read_number(Number) :-
-    write('Enter a number: '),
-    read_line_to_codes(user_input, Codes),
-    number_codes(Number, Codes).*/
-
 read_row(Row, SizeY):-
   format('Pick a row (0 - ~d) : ', SizeY-1),
   get_code(Row).
@@ -59,3 +54,8 @@ check_row(AsciiRow, NumRow, SizeY):-
   skip_line,
   read_row(Row, SizeY),
   check_row(Row, NumRow, SizeY).
+
+  /*read_number(Number) :-
+    write('Enter a number: '),
+    read_line_to_codes(user_input, Codes),
+    number_codes(Number, Codes).*/

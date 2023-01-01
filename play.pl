@@ -21,9 +21,9 @@ play_pvp:-
 game(GameState, Player) :-
     print_board(GameState),
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
-    select_dir(GameState, )
-    move_stones(GameState, X1, Y1, X2, Y2, X3, Y3, NewBoard),
-    display_board(NewBoard),
+    select_dir(Option),
+    move_stones(GameState, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
+    print_board(NewBoard),
     (
         win_condition(NewBoard, Player) ->
         format("Player ~w wins!", [Player]);
