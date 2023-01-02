@@ -10,6 +10,10 @@ dir(b, -1, 0).
 win(w, 0).
 win(b, 8).
 
+% define the function that returns the other player
+other_player(+, o).
+other_player(o, +).
+
 % define the possible movements for a given stone
 direction(0, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y.
 direction(1, [X,Y], [X1,Y1]) :- X1 is X-2, Y1 is Y.
@@ -58,9 +62,33 @@ coordinates_not_same(Board, Player, X1, Y1, X2, Y2) :-
     coordinates_not_same(X1, Y1, X2, Y2).
 
 
-select_dir(Option) :-
+ select_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
     chooseDirection,
-    read_number(0, 5, Option).
+    read_number(0, 5, Option),
+    check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3).
+
+check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
+    direction(Option, [X1, Y1], [X1_2, Y1_2]),
+        (
+            traverse_matrix(Board, X1_2, Y1_2, '_');
+            traverse_matrix(Board, X1_2, Y1_2, other_player(Player))
+        ),
+    direction(Option, [X2, Y2], [X2_2, Y2_2]),
+        (
+            traverse_matrix(Board, X2_2, Y2_2, '_');
+            traverse_matrix(Board, X2_2, Y2_2, other_player(Player))
+        ),
+    direction(Option, [X3, Y3], [X3_2, Y3_2]),
+        (
+            traverse_matrix(Board, X3_2, Y3_2, '_');
+            traverse_matrix(Board, X3_2, Y3_2, other_player(Player))
+        ).
+
+
+check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
+    write('Invalid direction! Make sure all stones can move\n\n'),
+    select_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3),
+    check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3).
 
 move_stones(Board, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard2) :-
     direction(Direction, [X1, Y1], [X1_2, Y1_2]),
@@ -70,10 +98,12 @@ move_stones(Board, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard2) :-
     direction(Direction, [X3, Y3], [X3_2, Y3_2]),
     movepiece(NewBoard1, X3, Y3, X3_2, Y3_2, NewBoard2).
 
+
 movepiece(Board, X1, Y1, X2, Y2, NewBoard) :-
     selectch(Board, X1, Y1, Ch),
     deletech(Board, X1, Y1, Board1),
-    insertch(Board1, X2, Y2, Ch, NewBoard).
+    insertch(Board1, X2, Y2, Ch, Board2),
+    insertch(Board2, X1, Y1, '_', NewBoard).
 
 
 selectch([Row|Rows], 0, Y, Ch) :-
@@ -109,6 +139,7 @@ deletech_row([Ch|Cols], Y, Ch, [_|Cols]) :-
     Y > 0,
     Y1 is Y - 1,
     deletech_row(Cols, Y1, Ch, Cols).
+
 
 insertch(Board, X, Y, Ch, NewBoard) :-
     deletech(Board, X, Y, NewBoard1),
@@ -148,38 +179,18 @@ movepiece(Board, FromX, FromY, ToX, ToY, NewBoard) :-
 
 
 
-% define the function that updates a single cell of the board
-update_board(Board, Stones, NewValue, [X,Y]) :-
-    nth1(X, Board, Row),
-    nth1(Y, Row, Value),
-    (
-        member([X,Y], Stones) ->
-        stones(Player, _),
-        dir(Player, DX, DY),
-        NewX is X+DX,
-        NewY is Y+DY,
-        (
-            cell_empty(Board, NewX, NewY) ->
-            NewValue = Player;
-            NewValue = Value
-        );
-        NewValue = Value
-    ).
-
-
-% define the function that checks if a cell is empty
-cell_empty(Board, X, Y) :-
-    nth1(X, Board, Row),
-    nth1(Y, Row, Value),
-    Value = _.
-
-% define the function that checks if a player has no more moves
-no_moves(Board, Player) :-
-    findall(Stone, (member(Row, Board), member(Player, Row), Stone = [X,Y]), AllStones),
-    forall(member(Stone, AllStones), \+move(Stone, _)).
-
-% define the function that checks if a player has reached the opponents home row
+% define the function that checks if a player has reached the opponents home row or has eaten all enemy stones
 win_condition(Board, Player) :-
-    win(Player, WinRow),
-    findall(X, (member([X,_], Board), member(Player, [X,_])), Rows),
-    member(WinRow, Rows).
+    other_player(Player, OtherPlayer),
+        \+ (
+            member(Row, Board),
+            member(OtherPlayer, Row)
+        );
+        (
+            nth0(1, Board, Row),
+            member('+', Row)
+        );
+        (
+            nth0(9, Board, Row),
+            member('o', Row)
+        ).

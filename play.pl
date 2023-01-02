@@ -14,36 +14,23 @@ handle_play_input(3):- difficulty_menu('(Bot 1)'), read_number(1, 2, Input1), di
 
 
 play_pvp:-
+    print_board(Board),
     game(Board, w).
 
 
 % define the game loop
 game(GameState, Player) :-
-    print_board(GameState),
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
-    select_dir(Option),
+    select_dir(GameState, Option, Player, X1, Y1, X2, Y2, X3, Y3),
     move_stones(GameState, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
     print_board(NewBoard),
     (
         win_condition(NewBoard, Player) ->
-        format("Player ~w wins!", [Player]);
+        format('Player ~w wins!', [Player]);
         (
             other_player(Player, OtherPlayer),
-            game(NewBoard, OtherPlayer, 3)
+            game(NewBoard, OtherPlayer)
             
         )
     ).
 
-/*
-% define the function that selects N elements from a list
-select_n(0, _, []) :- !.
-select_n(N, List, [E|Rest]) :-
-    N > 0,
-    N1 is N-1,
-    select_n(E, List, NewList),
-    select_n(N1, NewList, Rest).
-*/
-
-% define the function that returns the other player
-other_player(w, b).
-other_player(b, w).

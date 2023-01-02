@@ -13,6 +13,7 @@ board([
 [' ', ' ', ' ', ' ', '|', '+', '|', '+', '|', '+', '|', '+', '|', '+', '|', ' ', ' ', ' ', ' ']
 ]).
 
+
 %board(Board).
 
 print_board(Board) :-
@@ -114,9 +115,9 @@ display_rules:-
 
 chooseDirection:-
     write(' ----- Piece Directions -----\n\n'),
-    write('|        0. Up Right          |\n'),
-    write('|        1. Up Left           |\n'),
-    write('|        2. Right             |\n'),
-    write('|        3. Left              |\n'),
-    write('|        4. Down Right        |\n'),
-    write('|        5. Down Left         |\n\n').
+    write('|        0. Right             |\n'),
+    write('|        1. Left              |\n'),
+    write('|        2. Down Right        |\n'),
+    write('|        3. Down Left         |\n'),
+    write('|        4. Up Right          |\n'),
+    write('|        5. Up Left           |\n\n').

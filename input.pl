@@ -14,11 +14,17 @@ read_number(LowerBound, UpperBound, N):-
   format('Choose an Option (~d-~d) - ', [LowerBound, UpperBound]),
   get_code(ASCII),
   code_number(ASCII, N),
+  check_number(LowerBound, UpperBound, N).
+
+check_number(LowerBound, UpperBound, N) :-
   N =< UpperBound, N >= LowerBound, skip_line.
-  
-read_number(LowerBound, UpperBound, N):-
+
+check_number(LowerBound, UpperBound, N) :-
+  (N > UpperBound; N < LowerBound),
   write('Not a valid number!\n'), skip_line,
-  read_number(LowerBound, UpperBound, N).
+  read_number(LowerBound, UpperBound, N),
+  check_number(LowerBound, UpperBound, N).
+
 
 read_input(SizeX, SizeY, X, Y):-
   read_col(Col, SizeX),
@@ -36,6 +42,7 @@ check_col(AsciiCol, NumCol, SizeX):-
 
 
 check_col(_, NumCol, SizeX):-
+  (NumCol >= SizeX; NumCol < 0),
   format('Invalid column! It must be a number between 0 - ~d \n', SizeX-1),
   skip_line,
   read_col(Col, SizeX),
@@ -50,6 +57,7 @@ check_row(AsciiRow, NumRow, SizeY):-
   NumRow < SizeY, NumRow >= 0, skip_line.
 
   check_row(_, NumRow, SizeY):-
+  (NumRow >= SizeY; NumRow < 0),
   format('Invalid row! It must be a number between 0 - ~d \n', SizeY-1),
   skip_line,
   read_row(Row, SizeY),
