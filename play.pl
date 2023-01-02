@@ -26,9 +26,10 @@ game(GameState, Player) :-
     print_board(NewBoard),
     (
         win_condition(NewBoard, Player) ->
-        format('Player ~w wins!', [Player]);
+        format('Player ~w wins! \n\n', [Player]);
         (
             other_player(Player, OtherPlayer),
+            format('\n\nNow is the player "~w" turn\n\n', OtherPlayer),
             game(NewBoard, OtherPlayer)
             
         )
