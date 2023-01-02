@@ -98,13 +98,13 @@ check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
     check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3).
 
 move_stones(Board, Player, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard5) :-
-    direction(Direction, [X1, Y1], [X1_2, Y1_2]),
+    direction1(Direction, [X1, Y1], [X1_2, Y1_2]),
     movepiece1(Board, X1, Y1, NewBoard),
     movepiece2(NewBoard, Player, X1_2, Y1_2, NewBoard1),
-    direction(Direction, [X2, Y2], [X2_2, Y2_2]),
+    direction1(Direction, [X2, Y2], [X2_2, Y2_2]),
     movepiece1(NewBoard1, X2, Y2, NewBoard2),
     movepiece2(NewBoard2, Player, X2_2, Y2_2, NewBoard3),
-    direction(Direction, [X3, Y3], [X3_2, Y3_2]),
+    direction1(Direction, [X3, Y3], [X3_2, Y3_2]),
     movepiece1(NewBoard3, X3, Y3, NewBoard4),
     movepiece2(NewBoard4, Player, X3_2, Y3_2, NewBoard5),
     print_board(NewBoard5).
@@ -112,7 +112,8 @@ move_stones(Board, Player, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard5) :-
 
 movepiece1(Board, X1, Y1, NewBoard) :-
     nth0(Y1, Board, Row),
-    inserto('_', Row, NewRow, X1),
+    X2 is X1+1,
+    inserto('_', Row, NewRow, X2),
     replace(Board, Y1, NewRow, NewBoard).
 
 movepiece2(Board, Player, X1, Y1, NewBoard) :-
