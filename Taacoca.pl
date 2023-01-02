@@ -11,7 +11,6 @@
 :-use_module(library(lists)).
 :-use_module(library(system)).
 
-:-dynamic board/1.
 % Main function
 % Calls the initial functions
 

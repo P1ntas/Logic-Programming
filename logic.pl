@@ -15,12 +15,19 @@ other_player(+, o).
 other_player(o, +).
 
 % define the possible movements for a given stone
-direction(0, [X,Y], [X1,Y1]) :- X1 is X+3, Y1 is Y.
-direction(1, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
-direction(2, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y+1.
-direction(3, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y+1.
-direction(4, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y-1.
-direction(5, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y-1.
+direction(0, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y.
+direction(1, [X,Y], [X1,Y1]) :- X1 is X-2, Y1 is Y.
+direction(2, [X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y+1.
+direction(3, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y+1.
+direction(4, [X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y-1.
+direction(5, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y-1.
+
+direction1(0, [X,Y], [X1,Y1]) :- X1 is X+3, Y1 is Y.
+direction1(1, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
+direction1(2, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y+1.
+direction1(3, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y+1.
+direction1(4, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y-1.
+direction1(5, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y-1.
 
 % define the function that selects the stones to move
 select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-

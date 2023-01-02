@@ -15,7 +15,7 @@ handle_play_input(3):- difficulty_menu('(Bot 1)'), read_number(1, 2, Input1), di
 
 play_pvp:-
     print_Initboard(Board),
-    game(Board, w).
+    game(Board, '+').
 
 
 % define the game loop
