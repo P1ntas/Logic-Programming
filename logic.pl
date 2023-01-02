@@ -32,17 +32,8 @@ direction1(5, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y-1.
 % define the function that selects the stones to move
 select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
     get_coords(Board, Player, X1, Y1, X2, Y2, X3, Y3).
-    /*
-    write('Choosing the coordinates for your first piece: \n\n'),
-    get_valid_coordinates(Board, Player, X1, Y1),
-    write('Choosing the coordinates for your second piece: \n\n'),
-    get_valid_coordinates(Board, Player, X2, Y2),
-    diff_coord(Board, Player, X1, Y1, X2, Y2),
-    write('Choosing the coordinates for your third piece: \n\n'),
-    get_valid_coordinates(Board, Player, X3, Y3),
-    diff_coord(Board, Player, X1, Y1, X3, Y3),
-    diff_coord(Board, Player, X2, Y2, X3, Y3).
-*/
+
+
 get_coords(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
     repeat,
         write('Choosing the coordinates for your first piece: \n\n'),
@@ -54,16 +45,15 @@ get_coords(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
             fail
         ;   true
         ),
-        write('Choosing the coordinates for your third piece: \n\n'),
+            write('Choosing the coordinates for your third piece: \n\n'),
         get_valid_coordinates(Board, Player, X3, Y3),
-        (   (X1 == X3, Y1 == Y3)
-        ;   (X2 == X3, Y2 == Y3)
+        (   ((X1 == X3, Y1 == Y3)
+        ;   (X2 == X3, Y2 == Y3))
         ->  write('\nCoordinates must be different from each other. Please try again.\n'),
             fail
         ;   true
         ),
         !.
-
 
 get_valid_coordinates(Board, Player, X, Y) :-
     read_input(18, 9, X, Y),
@@ -81,53 +71,39 @@ traverse_matrix(Matrix, X, Y, Char) :-
     nth0(Y, Matrix, Row),
     nth0(X, Row, Element),
     Element == Char.
-/*
-diff_coord(Board, Player, X1, Y1, X2, Y2) :-
-    read_input(18, 10, X2, Y2),
-    coordinates_not_same(Board, Player, X1, Y1, X2, Y2), !.
 
-diff_coord(Board, Player, X1, Y1, X2, Y2) :-
-     write('You already chose that piece! Select a different one \n\n'),
-     diff_coord(Board, Player, X1, Y1, X2, Y2).
-
-coordinates_not_same(_, _, X1, Y1, X2, Y2) :-
-  X1 \= X2;
-  Y1 \= Y2.
-*/
 
  select_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
+    repeat,
     chooseDirection,
     read_number(0, 5, Option),
-    check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3).
+    check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3),
+    !.
 
 check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
     direction(Option, [X1, Y1], [X1_2, Y1_2]),
         (
             traverse_matrix(Board, X1_2, Y1_2, '_');
             traverse_matrix(Board, X1_2, Y1_2, other_player(Player));
-            traverse_matrix(Board, X2, Y2, Player);
-            traverse_matrix(Board, X3, Y3, Player)
+            X1_2 == X2; Y1_2 == Y2; X1_2 == X3; Y1_2 == Y3
         ),
     direction(Option, [X2, Y2], [X2_2, Y2_2]),
         (
             traverse_matrix(Board, X2_2, Y2_2, '_');
             traverse_matrix(Board, X2_2, Y2_2, other_player(Player));
-            traverse_matrix(Board, X1, Y1, Player);
-            traverse_matrix(Board, X3, Y3, Player)
+            X2_2 == X1; Y2_2 == Y1; X2_2 == X3; Y2_2 == Y3
         ),
     direction(Option, [X3, Y3], [X3_2, Y3_2]),
         (
             traverse_matrix(Board, X3_2, Y3_2, '_');
             traverse_matrix(Board, X3_2, Y3_2, other_player(Player));
-            traverse_matrix(Board, X2, Y2, Player);
-            traverse_matrix(Board, X1, Y1, Player)
+            X3_2 == X1; Y3_2 == Y1; X3_2 == X2; Y3_2 == Y2
         ).
 
-
-check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
+check_dir(_, _, _, _, _, _, _, _, _) :-
     write('Invalid direction! Make sure all stones can move\n\n'),
-    select_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3),
-    check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3).
+    false.
+
 
 move_stones(Board, Player, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard5) :-
     direction1(Direction, [X1, Y1], [X1_2, Y1_2]),
