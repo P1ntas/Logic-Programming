@@ -1,6 +1,6 @@
 % define the board
 
-board([
+init_board([
 [' ', ' ', ' ', ' ', ' ', '_', '_', '_', '_', '_', '_', '_', '_', '_', ' ', ' ', ' ', ' ', ' '],
 [' ', ' ', ' ', ' ', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', ' ', ' ', ' ', ' '],
 [' ', ' ', ' ', '|', '_', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', '_', '|', ' ', ' ', ' '],
@@ -16,10 +16,12 @@ board([
 
 %board(Board).
 
-print_board(Board) :-
-    board(Board),
+print_Initboard(Board) :-
+    init_board(Board),
     maplist(print_row, Board).
 
+print_board(Board) :-
+    maplist(print_row, Board).
 
 print_row(Row) :-
     maplist(format("~w "), Row),

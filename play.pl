@@ -9,12 +9,12 @@ exit:-
 
 % Handle play menu input
 handle_play_input(1):- play_pvp.
-handle_play_input(2):- difficulty_menu, read_number(1, 2, Input), 
-handle_play_input(3):- difficulty_menu('(Bot 1)'), read_number(1, 2, Input1), difficulty_menu('(Bot 2)'), read_number(1, 2, Input2)
+handle_play_input(2):- difficulty_menu, read_number(1, 2, Input).
+handle_play_input(3):- difficulty_menu('(Bot 1)'), read_number(1, 2, Input1), difficulty_menu('(Bot 2)'), read_number(1, 2, Input2).
 
 
 play_pvp:-
-    print_board(Board),
+    print_Initboard(Board),
     game(Board, w).
 
 
@@ -22,7 +22,7 @@ play_pvp:-
 game(GameState, Player) :-
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir(GameState, Option, Player, X1, Y1, X2, Y2, X3, Y3),
-    move_stones(GameState, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
+    move_stones(GameState, Player, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
     print_board(NewBoard),
     (
         win_condition(NewBoard, Player) ->

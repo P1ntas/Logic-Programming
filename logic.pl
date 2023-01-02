@@ -15,12 +15,12 @@ other_player(+, o).
 other_player(o, +).
 
 % define the possible movements for a given stone
-direction(0, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y.
-direction(1, [X,Y], [X1,Y1]) :- X1 is X-2, Y1 is Y.
-direction(2, [X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y+1.
-direction(3, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y+1.
-direction(4, [X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y-1.
-direction(5, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y-1.
+direction(0, [X,Y], [X1,Y1]) :- X1 is X+3, Y1 is Y.
+direction(1, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
+direction(2, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y+1.
+direction(3, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y+1.
+direction(4, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y-1.
+direction(5, [X,Y], [X1,Y1]) :- X1 is X, Y1 is Y-1.
 
 % define the function that selects the stones to move
 select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
@@ -90,93 +90,38 @@ check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
     select_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3),
     check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3).
 
-move_stones(Board, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard2) :-
+move_stones(Board, Player, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard5) :-
     direction(Direction, [X1, Y1], [X1_2, Y1_2]),
-    movepiece(Board, X1, Y1, X1_2, Y1_2, NewBoard),
+    movepiece1(Board, X1, Y1, NewBoard),
+    movepiece2(NewBoard, Player, X1_2, Y1_2, NewBoard1),
     direction(Direction, [X2, Y2], [X2_2, Y2_2]),
-    movepiece(NewBoard, X2, Y2, X2_2, Y2_2, NewBoard1),
+    movepiece1(NewBoard1, X2, Y2, NewBoard2),
+    movepiece2(NewBoard2, Player, X2_2, Y2_2, NewBoard3),
     direction(Direction, [X3, Y3], [X3_2, Y3_2]),
-    movepiece(NewBoard1, X3, Y3, X3_2, Y3_2, NewBoard2).
+    movepiece1(NewBoard3, X3, Y3, NewBoard4),
+    movepiece2(NewBoard4, Player, X3_2, Y3_2, NewBoard5),
+    print_board(NewBoard5).
 
 
-movepiece(Board, X1, Y1, X2, Y2, NewBoard) :-
-    selectch(Board, X1, Y1, Ch),
-    deletech(Board, X1, Y1, Board1),
-    insertch(Board1, X2, Y2, Ch, Board2),
-    insertch(Board2, X1, Y1, '_', NewBoard).
+movepiece1(Board, X1, Y1, NewBoard) :-
+    nth0(Y1, Board, Row),
+    inserto('_', Row, NewRow, X1),
+    replace(Board, Y1, NewRow, NewBoard).
 
+movepiece2(Board, Player, X1, Y1, NewBoard) :-
+    nth0(Y1, Board, Row),
+    inserto(Player, Row, NewRow, X1),
+    replace(Board, Y1, NewRow, NewBoard).
 
-selectch([Row|Rows], 0, Y, Ch) :-
-    selectch_row(Row, Y, Ch).
+replace([_|Tail], 0, Element, [Element|Tail]).
+replace([Head|Tail], Index, Element, [Head|Result]) :-
+    Index > 0,
+    NewIndex is Index-1,
+    replace(Tail, NewIndex, Element, Result).
 
-selectch([_|Rows], X, Y, Ch) :-
-    X > 0,
-    X1 is X - 1,
-    selectch(Rows, X1, Y, Ch).
-
-selectch_row([Ch|_], 0, Ch).
-
-selectch_row([_|Cols], Y, Ch) :-
-    Y > 0,
-    Y1 is Y - 1,
-    selectch_row(Cols, Y1, Ch).
-
-deletech(Board, X, Y, NewBoard) :-
-    selectch(Board, X, Y, Ch),
-    deletech(Board, X, Y, Ch, NewBoard).
-
-deletech([Row|Rows], 0, Y, Ch, [NewRow|Rows]) :-
-    deletech_row(Row, Y, Ch, NewRow).
-
-deletech([Row|Rows], X, Y, Ch, [Row|NewRows]) :-
-    X > 0,
-    X1 is X - 1,
-    deletech(Rows, X1, Y, Ch, NewRows).
-
-deletech_row([_|Cols], 0, _, Cols).
-
-deletech_row([Ch|Cols], Y, Ch, [_|Cols]) :-
-    Y > 0,
-    Y1 is Y - 1,
-    deletech_row(Cols, Y1, Ch, Cols).
-
-
-insertch(Board, X, Y, Ch, NewBoard) :-
-    deletech(Board, X, Y, NewBoard1),
-    insertch(NewBoard1, X, Y, Ch, NewBoard).
-
-insertch([Row|Rows], 0, Y, Ch, [NewRow|Rows]) :-
-    insertch_row(Row, Y, Ch, NewRow).
-
-insertch([Row|Rows], X, Y, Ch, [Row|NewRows]) :-
-    X > 0,
-    X1 is X - 1,
-    insertch(Rows, X1, Y, Ch, NewRows).
-
-insertch_row([_|Cols], 0, Ch, [Ch|Cols]).
-
-insertch_row([Ch|Cols], Y, Ch, [Ch|NewCols]) :-
-    Y > 0,
-    Y1 is Y - 1,
-    insertch_row(Cols, Y1, Ch, NewCols).
-
-
-
-/*
-movepiece(Board, FromX, FromY, ToX, ToY, NewBoard) :-
-  nth0(FromY, Board, Row),
-  nth0(FromX, Row, Piece),
-  delete(Row, Piece, NewRow),
-  insert(NewRow, '_', FromX),
-  delete(Board, Row, IntermediateBoard),
-  nth0(ToY, IntermediateBoard, ToRow),
-  delete(IntermediateBoard, ToRow, IntermediateBoard2),
-  insert(ToRow, Piece, NewToRow),
-  insert(IntermediateBoard2, NewToRow, NewIntermediateBoard),
-  nth0(FromY, NewIntermediateBoard, NewFromRow),
-  insert(NewIntermediateBoard, NewFromRow, NewBoard).
-*/
-
+inserto(_,[],[],_).
+inserto(E,[_|Xs],[E|Ys],1) :- inserto(E,Xs,Ys,0),!.
+inserto(E,[X|Xs],[X|Ys],N) :- N1 is N-1, inserto(E,Xs,Ys,N1).
 
 
 % define the function that checks if a player has reached the opponents home row or has eaten all enemy stones
