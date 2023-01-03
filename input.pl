@@ -1,14 +1,3 @@
-code_number(48, 0).
-code_number(49, 1).
-code_number(50, 2).
-code_number(51, 3).
-code_number(52, 4).
-code_number(53, 5).
-code_number(54, 6).
-code_number(55, 7).
-code_number(56, 8).
-code_number(57, 9).
-
 
 read_number(Min, Max, X) :-
     repeat,

@@ -14,8 +14,6 @@ init_board([
 ]).
 
 
-%board(Board).
-
 print_Initboard(Board) :-
     init_board(Board),
     maplist(print_row, Board).
@@ -28,35 +26,29 @@ print_row(Row) :-
     nl.
 
 
+display_menu:-
+    write(' ____________________________________________________________________________'), nl,
+    write('|                                                                            |'), nl,
+    write('|                                                                            |'), nl,
+    write('|                                                                            |'), nl,
+    write('|          _______ _______ _______ _______ _______ _______ _______           |'), nl,
+    write('|         |       |       |       |       |       |       |       |          |'), nl,
+    write('|         |_     _|   _   |   _   |       |   _   |       |   _   |          |'), nl,
+    write('|           |   | |  |_|  |  |_|  |      _|  | |  |      _|  |_|  |          |'), nl,
+    write('|           |   | |       |       |     | |  |_|  |     | |       |          |'), nl,
+    write('|           |   | |   _   |   _   |     |_|       |     |_|   _   |          |'), nl,
+    write('|           |___| |__| |__|__| |__|_______|_______|_______|__| |__|          |'), nl,
+    write('|                                                                            |'), nl,
+    write('|                                                                            |'), nl,
+    write('|                                                                            |'), nl,
+    write('|                                 1. Play                                    |'), nl,
+    write('|                                 2. Rules                                   |'), nl,
+    write('|                                 3. Exit                                    |'), nl,
+    write('|                                                                            |'), nl,
+    write('|                                                                            |'), nl,
+    write('|____________________________________________________________________________|'), nl.
 /*
-mainMenu1:-
-    write('\n\n ____________________________________________________________________________\n'),
-    write('|                                                                            |\n'),                                                                      
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                                                                            |\n'),
-    write('|                           1. Player vs Player                              |\n'),
-    write('|                           2. Player vs Computer                            |\n'),
-    write('|                           3. Computer vs Player                            |\n'),
-    write('|                           4. Computer vs Computer                          |\n'),
-    write('|                                                                            |\n'),
-    write('|                           0. Exit                                          |\n'),
-    write('|                                                                            |\n'),
-    write('|____________________________________________________________________________|\n').
 
-% Prints the Selection of the Bot Difficulty
-botDiffs:-
-    write('|        1. Easy         |\n'),
-    write('|        2. Medium       |\n'),
-    write('|        0. Exit         |\n').
 
 header(RandomString):-
     format(' ---- ~w ----\n', [RandomString]).
@@ -88,15 +80,6 @@ chooseBot2Diff:-
     empty,
     bottom.
 */
-
-
-
-% Main menu
-display_menu:-
-    write('Welcome to Taacooca!'), nl,
-    write('1 - Play'), nl,
-    write('2 - Rules'), nl,
-    write('3 - Exit'), nl.
 
 % Play menu
 play_menu:-

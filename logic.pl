@@ -91,13 +91,13 @@ check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
         (
             traverse_matrix(Board, X2_2, Y2_2, '_');
             traverse_matrix(Board, X2_2, Y2_2, other_player(Player));
-            X2_2 == X1; Y2_2 == Y1; X2_2 == X3; Y2_2 == Y3
+            (X2_2 == X1, Y2_2 == Y1); (X2_2 == X3, Y2_2 == Y3)
         ),
     direction(Option, [X3, Y3], [X3_2, Y3_2]),
         (
             traverse_matrix(Board, X3_2, Y3_2, '_');
             traverse_matrix(Board, X3_2, Y3_2, other_player(Player));
-            X3_2 == X1; Y3_2 == Y1; X3_2 == X2; Y3_2 == Y2
+            (X3_2 == X1, Y3_2 == Y1); (X3_2 == X2, Y3_2 == Y2)
         ).
 
 check_dir(_, _, _, _, _, _, _, _, _) :-
