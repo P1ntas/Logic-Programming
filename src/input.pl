@@ -29,5 +29,5 @@ between(Y, Min, Max) :-
 
 % Gets input
 read_input(SizeX, SizeY, X, Y):-
-  read_number1(0, SizeX, X, 'Pick a column (0 - 18)'),
-  read_number1(0, SizeY, Y, 'Pick a row (0 - 9)').
+  read_number1(1, SizeX, X, 'Pick a column (1 - 18)'),
+  read_number1(1, SizeY, Y, 'Pick a row (1 - 9)').

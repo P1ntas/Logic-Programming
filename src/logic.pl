@@ -183,7 +183,7 @@ check_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
 
 % Selects direction to move
 check_dir(_, _, _, _, _, _, _, _, _, _) :-
-    write('Invalid direction! Make sure all stones can move\n\n'),
+    write('\n\n\nInvalid direction! Make sure all stones can move\n\n'),
     false.
 
 % Moves pieces in board

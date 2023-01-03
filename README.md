@@ -4,9 +4,9 @@
 
 | Name             | Number    | Contribution                |
 | ---------------- | --------- | --------------------- |
-| Afonso José Pinheiro Oliveira Esteves Abreu    | 202008552 | %  |
-| Afonso da Silva Pinto    | 202008014 | %  |
-| Maria Carlota Gomes Ribeiro Matos Leite    | 202005428 | %  |
+| Afonso José Pinheiro Oliveira Esteves Abreu    | 202008552 | 33 %  |
+| Afonso da Silva Pinto    | 202008014 | 33 %  |
+| Maria Carlota Gomes Ribeiro Matos Leite    | 202005428 | 33 %  |
 
 ## Installation and Execution
 
@@ -50,8 +50,9 @@ There are a few different strategies that players might use in Taacoca. One comm
 
 ## Game Logic
 
+
 ### Game state representation
-indication of how they represent the state of the game, including board (typically using list of lists with different atoms for the pieces), current player, and eventually captured pieces and/or still to be played, or other information that may be needed (depending on the game). It should include examples of the Prolog representation of initial, intermediate and final game states, and an indication of the meaning of each atom (ie., how the different pieces represent).
+
 
 #### Board
 
@@ -82,17 +83,13 @@ Regarding the players, we are representing each white stone with a character `+`
 
 #### Board - [display.pl](src/display.pl)
 
-The initial board is displayed using the predicate `print_Initboard(Board)` that calls other predicates in return:
-!!!- `init_board(Board)` -
-!!!- `maplist(print_row, Board)` - 
+The initial board is displayed using the predicate `print_Initboard(Board)`.
 
-The intermediate board is displayed during the game with the predicate `print_board(Board)` that calls `maplist(print_row, Board)` as well.
+The intermediate board is displayed during the game with the predicate `print_board(Board)`.
 
-!!!The `print_row(Row)` predicate calls `maplist(format("~w "), Row)`
+Below is the visualization for the game state showed in the [GameStateRepresentation](#Board):
 
-Below are the visualizations for the game state showed in the [GameStateRepresentation](#Board):
-
-- Initial Situation:
+- Initial State:
 
 ```
 
@@ -131,52 +128,52 @@ If `Rules` is selected, the game rules are displayed:
 
 ![Game Rules](img/menu_rules.png)
 
-If the player chooses to play against a computer, they must then choose the difficulty of the artificial intelligence:
-
-!!! add screenshot
-
-#### Input validation - [input.pl](src/input.pl)
+#### Input validation - [input.pl](src/input.pl) & [utils.pl](src/utils.pl)
 
 To avoid unexpected behaviour in case of invalid user inputs, we implemented user input validation that alerts the user if their input is not valid and asks them to try again.
 
-#### Menu input validation
+#### Menu input validation [input.pl](src/input.pl)
 
 In this case, user input is invalid either when it's out of range of the options or it's of a different type altogether.
 
-!!! acabar
+We used `read_number(Min, Max, X)` in each menu to verify if the input is within the range estipulated.
 
-#### Gameplay input validation
-
-!!! acabar
+![Menu Invalid Input](img/invalid_input_menu.png)
 
 
-### Move execution
+#### Gameplay input validation [logic.pl](src/logic.pl)
 
+We have several functions that validate the user input, such as `get_valid_coordinates(Board, Player, X, Y)`, `check_coord(Board, Player, X, Y)` and `traverse_matrix(Matrix, X, Y, Char)`.
 
+![Gameplay Invalid Input](img/invalid_gameplay_input.png)
+
+![Direction Invalid Input](img/invalid_direction_input.png)
 
 
 ### List of valid moves
 
+In Taacoca, it's very difficult to predict any moves, since most are made by the player or the computer and the moves are made with 3 pieces at a time.
 
+### End of Game [logic.pl](src/logic.pl)
 
+`game_over(Board, Player)` checks if a player has reached the opponents home row or has eaten all enemy stones and the player that wins is displayed.
 
-### End of Game
+### Board evaluation [logic.pl](src/logic.pl)
 
+`game_over(Board, Player)` checks if the game has ended or not.
 
+### Computer move [bot.pl](src/bot.pl)
 
-### Board evaluation
-
-
-
-### Computer move
-
-
+Although we didn't implement the `choose_move` predicate, we adapted the functions used in the player moves to create a bot that randomly chooses a move.
 
 ## Conclusions
 
 We had a positive experience working with Prolog on this project, althought it's a very different language than the ones we're used to.
 
-bugs or limitations?
+Limitations:
+
+- Missing intermediate and final states.
+- In SICStus Prolog, the program doesn't recognize the `random_between` function, therefore we can only run our game on the terminal.
 
 For future improvements, maybe we could add more levels of difficulty and add other features to make the game more visually appealing or easier to play.
 
