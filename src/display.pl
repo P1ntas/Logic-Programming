@@ -1,5 +1,4 @@
-% define the board
-
+%Initial board
 initial_state([
 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8'],
 ['1', ' ', ' ', ' ', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', ' ', ' ', ' ', ' '],
@@ -13,19 +12,21 @@ initial_state([
 ['9', ' ', ' ', ' ', '|', '+', '|', '+', '|', '+', '|', '+', '|', '+', '|', ' ', ' ', ' ', ' ']
 ]).
 
-
+%prints initial board
 print_Initboard(Board) :-
     initial_state(Board),
     maplist(print_row, Board).
 
+%Prints board
 display_game(Board) :-
     maplist(print_row, Board).
 
+%Prints each row
 print_row(Row) :-
     maplist(format("~w "), Row),
     nl.
 
-
+%Prints menu
 display_menu:-
     write(' ____________________________________________________________________________'), nl,
     write('|                                                                            |'), nl,
@@ -122,7 +123,8 @@ display_rules:-
     write('|           from the board.                                                  |'), nl,
     write('|____________________________________________________________________________|'), nl,
     play.
-
+    
+%Chooses direction to  move
 chooseDirection:-
     nl, nl,
     write(' ----- Piece Directions -----\n\n'),

@@ -2,9 +2,11 @@
 other_player(+, o).
 other_player(o, +).
 
+%Directions
 list1(List) :-
   List = [0, 1, 2, 3, 4, 5, 1922].
 
+% Directions
 list2(List) :-
   List = [0, 1, 2, 3, 4, 5, 2013].
 
@@ -26,7 +28,7 @@ direction(1922, _, _, Board, Player, Flag) :-
 direction(2013, _, _, Board, Player, Flag) :-
     game_cvc(Board, Player, Flag).
 
-
+% Directions to move
 direction1(0, [X,Y], [X1,Y1]) :- X1 is X+3, Y1 is Y.
 direction1(1, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
 direction1(2, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y+1.
@@ -47,7 +49,7 @@ select_stones(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
     */
     get_coords(Board, Player, X1, Y1, X2, Y2, X3, Y3).
 
-
+% Gets coordinates to move
 get_coords(Board, Player, X1, Y1, X2, Y2, X3, Y3) :-
     repeat,
         write('\n\nChoosing the coordinates for your first piece: \n\n'),
@@ -89,23 +91,27 @@ get_coords2(Board, Player, X1, Y1) :-
         !.
 */
 
+% Checks if coordinates are valid
 get_valid_coordinates(Board, Player, X, Y) :-
     read_input(18, 9, X, Y),
     check_coord(Board, Player, X, Y), !.
 
+% Checks if coordinates are valid
 get_valid_coordinates(Board, Player, X, Y) :-
     format('Invalid coordinates! You must select your own pieces: "~w" \n\n', Player),
     get_valid_coordinates(Board, Player, X, Y).
 
-% checks if these coordinates are valid
+% Checks if these coordinates are valid
 check_coord(Board, Player, X, Y) :-
     traverse_matrix(Board, X, Y, Player), !.
 
+% Finds location in matrix
 traverse_matrix(Matrix, X, Y, Char) :-
     nth0(Y, Matrix, Row),
     nth0(X, Row, Element),
     Element == Char.
 
+% Selectsdirection to move
  select_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
     repeat,
     chooseDirection,
@@ -153,6 +159,7 @@ check_dir2(_, _, _, _, _, _) :-
     write('Invalid direction! Make sure all stones can move\n\n'),
     false.
 */
+% Selects direction to move
 check_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
     direction(Option, [X1, Y1], [X1_2, Y1_2], Board, Player, Flag),
     other_player(Player, OtherPlayer),
@@ -174,11 +181,12 @@ check_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
             (X3_2 == X1, Y3_2 == Y1); (X3_2 == X2, Y3_2 == Y2)
         ).
 
+% Selects direction to move
 check_dir(_, _, _, _, _, _, _, _, _, _) :-
     write('Invalid direction! Make sure all stones can move\n\n'),
     false.
 
-
+% Moves pieces in board
 move_stones(Board, Player, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard5) :-
     direction1(Direction, [X1, Y1], [X1_2, Y1_2]),
     movepiece1(Board, X1, Y1, NewBoard),
@@ -190,24 +198,27 @@ move_stones(Board, Player, Direction, X1, Y1, X2, Y2, X3, Y3, NewBoard5) :-
     movepiece1(NewBoard3, X3, Y3, NewBoard4),
     movepiece2(NewBoard4, Player, X3_2, Y3_2, NewBoard5).
 
-
+% Moves pieces in board
 movepiece1(Board, X1, Y1, NewBoard) :-
     nth0(Y1, Board, Row),
     X2 is X1+1,
     inserto('_', Row, NewRow, X2),
     replace(Board, Y1, NewRow, NewBoard).
 
+% Moves pieces in board
 movepiece2(Board, Player, X1, Y1, NewBoard) :-
     nth0(Y1, Board, Row),
     inserto(Player, Row, NewRow, X1),
     replace(Board, Y1, NewRow, NewBoard).
 
+% Makes previous position empty
 replace([_|Tail], 0, Element, [Element|Tail]).
 replace([Head|Tail], Index, Element, [Head|Result]) :-
     Index > 0,
     NewIndex is Index-1,
     replace(Tail, NewIndex, Element, Result).
 
+% Inserts piece tonew position
 inserto(_,[],[],_).
 inserto(E,[_|Xs],[E|Ys],1) :- inserto(E,Xs,Ys,0),!.
 inserto(E,[X|Xs],[X|Ys],N) :- N1 is N-1, inserto(E,Xs,Ys,N1).

@@ -12,21 +12,23 @@ handle_play_input(1):- play_pvp(0).
 handle_play_input(2):- play_pvc(1).
 handle_play_input(3):- play_cvc(2).
 
-
+%Initial state when playing 2 players
 play_pvp(Flag):-
     print_Initboard(Board),
     game_pvp(Board, '+', Flag).
 
+%Initial state when playing against a computer
 play_pvc(Flag):-
     print_Initboard(Board),
     game_pvc(Board, '+', Flag).
 
+%Initial state when playing 2 computers
 play_cvc(Flag):-
     print_Initboard(Board),
     game_cvc(Board, '+', Flag).
 
 
-% define the game loop
+% define the game loop player vs player
 game_pvp(GameState, Player, Flag) :-
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir(GameState, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3),
@@ -42,6 +44,7 @@ game_pvp(GameState, Player, Flag) :-
         )
     ).
 
+% define the game loop player vs computer
 game_pvc(GameState, Player, Flag) :-
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir(GameState, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3),
@@ -57,6 +60,7 @@ game_pvc(GameState, Player, Flag) :-
         )
     ).
 
+% define the game loop computer vs computer
 game_cvc(GameState, Player, Flag):-
     sleep(1),
     list2(List),
@@ -74,7 +78,7 @@ game_cvc(GameState, Player, Flag):-
         )
     ).
 
-
+% CPU to play game
 game_bot(GameState, Player, Flag):-
     sleep(1),
     list1(List),

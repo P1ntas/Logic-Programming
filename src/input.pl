@@ -1,4 +1,4 @@
-
+% Reads input number
 read_number(Min, Max, X) :-
     repeat,
         read(Y),
@@ -10,6 +10,7 @@ read_number(Min, Max, X) :-
             fail
         ).
 
+% Reads input number
 read_number1(Min, Max, X, Request) :-
     repeat,
         write(Request),
@@ -22,11 +23,11 @@ read_number1(Min, Max, X, Request) :-
             fail
         ).
 
-
+% Checks if number is between two others
 between(Y, Min, Max) :-
   (Y =< Max, Y >= Min).
 
-
+% Gets input
 read_input(SizeX, SizeY, X, Y):-
   read_number1(0, SizeX, X, 'Pick a column (0 - 18)'),
   read_number1(0, SizeY, Y, 'Pick a row (0 - 9)').
