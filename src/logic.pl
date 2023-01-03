@@ -214,7 +214,7 @@ inserto(E,[X|Xs],[X|Ys],N) :- N1 is N-1, inserto(E,Xs,Ys,N1).
 
 
 % define the function that checks if a player has reached the opponents home row or has eaten all enemy stones
-win_condition(Board, Player) :-
+game_over(Board, Player) :-
     other_player(Player, OtherPlayer),
         \+ (
             member(Row, Board),
@@ -227,7 +227,6 @@ win_condition(Board, Player) :-
         (
             nth0(9, Board, Row),
             member('o', Row)
-        ),
-    play.
+        ).
 
 

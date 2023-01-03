@@ -31,10 +31,10 @@ game_pvp(GameState, Player, Flag) :-
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir(GameState, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3),
     move_stones(GameState, Player, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
-    nl, nl, print_board(NewBoard),
+    nl, nl, display_game(NewBoard),
     (
-        win_condition(NewBoard, Player) ->
-        format('->Player ~w wins! \n\n', [Player]);
+        game_over(NewBoard, Player) ->
+        format('->Player ~w wins! \n\n', [Player]), play, !;
         (
             other_player(Player, OtherPlayer),
             format('\n\n->Now is the player "~w" turn\n\n', OtherPlayer),
@@ -46,9 +46,9 @@ game_pvc(GameState, Player, Flag) :-
     select_stones(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir(GameState, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3),
     move_stones(GameState, Player, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
-    nl, nl, print_board(NewBoard),
+    nl, nl, display_game(NewBoard),
     (
-        win_condition(NewBoard, Player) ->
+        game_over(NewBoard, Player) ->
         format('\n\nPlayer ~w wins! \n\n', [Player]), play, !;
         (
             other_player(Player, OtherPlayer),
@@ -63,9 +63,9 @@ game_cvc(GameState, Player, Flag):-
     select_stones_bot_random(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir_bot_random(GameState, Option, Player, Flag, List, X1, Y1, X2, Y2, X3, Y3),
     move_stones(GameState, Player, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
-    nl, nl, print_board(NewBoard),
+    nl, nl, display_game(NewBoard),
     (
-        win_condition(NewBoard, Player) ->
+        game_over(NewBoard, Player) ->
         format('\n\n->Player ~w wins! \n\n', [Player]), play, !;
         (
             other_player(Player, OtherPlayer),
@@ -81,9 +81,9 @@ game_bot(GameState, Player, Flag):-
     select_stones_bot_random(GameState, Player, X1, Y1, X2, Y2, X3, Y3),
     select_dir_bot_random(GameState, Option, Player, Flag, List, X1, Y1, X2, Y2, X3, Y3),
     move_stones(GameState, Player, Option, X1, Y1, X2, Y2, X3, Y3, NewBoard),
-    nl, nl, print_board(NewBoard),
+    nl, nl, display_game(NewBoard),
     (
-        win_condition(NewBoard, Player) ->
+        game_over(NewBoard, Player) ->
         format('\n\n->Player ~w wins! \n\n', [Player]), play, !;
         (
             other_player(Player, OtherPlayer),

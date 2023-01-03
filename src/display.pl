@@ -1,6 +1,6 @@
 % define the board
 
-init_board([
+initial_state([
 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8'],
 ['1', ' ', ' ', ' ', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', ' ', ' ', ' ', ' '],
 ['2', ' ', ' ', '|', '_', '|', 'o', '|', 'o', '|', 'o', '|', 'o', '|', '_', '|', ' ', ' ', ' '],
@@ -15,10 +15,10 @@ init_board([
 
 
 print_Initboard(Board) :-
-    init_board(Board),
+    initial_state(Board),
     maplist(print_row, Board).
 
-print_board(Board) :-
+display_game(Board) :-
     maplist(print_row, Board).
 
 print_row(Row) :-
