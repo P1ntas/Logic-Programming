@@ -57,7 +57,6 @@ check_dir_bot_random(Board, Option, Player, Flag, _, X1, Y1, X2, Y2, X3, Y3) :-
         ).
 
 check_dir_bot_random(_, _, _, _, _, _, _, _, _, _, _) :-
-    write('wrong direction! \n'),
     false.
 
 

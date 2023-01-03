@@ -79,19 +79,19 @@ chooseBot2Diff:-
     botDiffs,
     empty,
     bottom.
-*/
-
-% Play menu
-play_menu:-
-    write('1 - Player vs Player'), nl,
-    write('2 - Player vs Computer'), nl,
-    write('3 - Computer vs Computer'), nl.
 
 % Difficulty menu
 difficulty_menu(Bot):-
     format('Select difficulty ~w:', Bot), nl,
     write('1 - Easy'), nl,
     write('2 - Hard'), nl.
+*/
+
+% Play menu
+play_menu:-
+    write('\n\n1 - Player vs Player'), nl,
+    write('2 - Player vs Computer'), nl,
+    write('3 - Computer vs Computer'), nl.
 
 % Display rules
 display_rules:-
@@ -124,6 +124,7 @@ display_rules:-
     play.
 
 chooseDirection:-
+    nl, nl,
     write(' ----- Piece Directions -----\n\n'),
     write('|        0. Right             |\n'),
     write('|        1. Left              |\n'),

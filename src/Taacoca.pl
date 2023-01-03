@@ -1,4 +1,3 @@
-
 :- consult('display.pl').
 :- consult('play.pl').
 :- consult('input.pl').
