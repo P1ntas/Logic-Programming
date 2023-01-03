@@ -95,7 +95,32 @@ difficulty_menu(Bot):-
 
 % Display rules
 display_rules:-
-    write('REGRAS...\nREGRAS...\n'), nl,
+    write(' ____________________________________________________________________________'), nl,
+    write('|                                                                            |'), nl,
+    write('|                     ~~~~~~ RULES OF TAACOCA ~~~~~~                         |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - Your objective is to reach the home row of the opponent.           |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - You can also win if your opponent is left without any stone        |'), nl,
+    write('|           or without any moves.                                            |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - Game begins with a move from the White player.                     |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - After that, players take turns moving any three of their           |'), nl,
+    write('|           stones one cell forward in the same direction.                   |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - If a player has less than three stones he must move                |'), nl,
+    write('|           all the remaining stones.                                        |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - If that cant be done, that player loses the game.                  |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - The stones moved dont need to be connected to each other,          |'), nl,
+    write('|           they just have to move in the same direction.                    |'), nl,
+    write('|                                                                            |'), nl,
+    write('|       - If some or all the targeted cells are occupied by a stone          |'), nl,
+    write('|           from the opponent, those stones are captured and removed         |'), nl,
+    write('|           from the board.                                                  |'), nl,
+    write('|____________________________________________________________________________|'), nl,
     display_menu.
 
 chooseDirection:-
