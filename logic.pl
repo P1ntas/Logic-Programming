@@ -14,13 +14,22 @@ win(b, 8).
 other_player(+, o).
 other_player(o, +).
 
+list(List) :-
+  List = [0, 1, 2, 3, 4, 5].
+
 % define the possible movements for a given stone
-direction(0, [X,Y], [X1,Y1]) :- X1 is X+2, Y1 is Y.
-direction(1, [X,Y], [X1,Y1]) :- X1 is X-2, Y1 is Y.
-direction(2, [X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y+1.
-direction(3, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y+1.
-direction(4, [X,Y], [X1,Y1]) :- X1 is X+1, Y1 is Y-1.
-direction(5, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y-1.
+direction(0, [X,Y], [X1,Y1], _, _, _) :- X1 is X+2, Y1 is Y.
+direction(1, [X,Y], [X1,Y1], _, _, _) :- X1 is X-2, Y1 is Y.
+direction(2, [X,Y], [X1,Y1], _, _, _) :- X1 is X+1, Y1 is Y+1.
+direction(3, [X,Y], [X1,Y1], _, _, _) :- X1 is X-1, Y1 is Y+1.
+direction(4, [X,Y], [X1,Y1], _, _, _) :- X1 is X+1, Y1 is Y-1.
+direction(5, [X,Y], [X1,Y1], _, _, _) :- X1 is X-1, Y1 is Y-1.
+direction(6, _, _, Board, Player, Flag) :-
+    Flag == 0,
+    game_pvp(Board, Player, Flag).
+direction(6, _, _, Board, Player, Flag) :-
+    Flag == 1,
+    game_pvc(Board, Player, Flag).
 
 direction1(0, [X,Y], [X1,Y1]) :- X1 is X+3, Y1 is Y.
 direction1(1, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
@@ -73,34 +82,34 @@ traverse_matrix(Matrix, X, Y, Char) :-
     Element == Char.
 
 
- select_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
+ select_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
     repeat,
     chooseDirection,
-    read_number(0, 5, Option),
-    check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3),
+    read_number(0, 6, Option),
+    check_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3),
     !.
 
-check_dir(Board, Option, Player, X1, Y1, X2, Y2, X3, Y3) :-
-    direction(Option, [X1, Y1], [X1_2, Y1_2]),
+check_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
+    direction(Option, [X1, Y1], [X1_2, Y1_2], Board, Player, Flag),
         (
             traverse_matrix(Board, X1_2, Y1_2, '_');
             traverse_matrix(Board, X1_2, Y1_2, other_player(Player));
-            X1_2 == X2; Y1_2 == Y2; X1_2 == X3; Y1_2 == Y3
+            (X1_2 == X2, Y1_2 == Y2); (X1_2 == X3, Y1_2 == Y3)
         ),
-    direction(Option, [X2, Y2], [X2_2, Y2_2]),
+    direction(Option, [X2, Y2], [X2_2, Y2_2], Board, Player, Flag),
         (
             traverse_matrix(Board, X2_2, Y2_2, '_');
             traverse_matrix(Board, X2_2, Y2_2, other_player(Player));
             (X2_2 == X1, Y2_2 == Y1); (X2_2 == X3, Y2_2 == Y3)
         ),
-    direction(Option, [X3, Y3], [X3_2, Y3_2]),
+    direction(Option, [X3, Y3], [X3_2, Y3_2], Board, Player, Flag),
         (
             traverse_matrix(Board, X3_2, Y3_2, '_');
             traverse_matrix(Board, X3_2, Y3_2, other_player(Player));
             (X3_2 == X1, Y3_2 == Y1); (X3_2 == X2, Y3_2 == Y2)
         ).
 
-check_dir(_, _, _, _, _, _, _, _, _) :-
+check_dir(_, _, _, _, _, _, _, _, _, _) :-
     write('Invalid direction! Make sure all stones can move\n\n'),
     false.
 

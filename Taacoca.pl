@@ -4,12 +4,15 @@
 :- consult('input.pl').
 :- consult('logic.pl').
 :- consult('bot.pl').
+:- consult('utils.pl').
 
 :-[input], [play], [display], [logic], [bot].
 :-use_module(library(random)).
 :-use_module(library(clpfd)).
 :-use_module(library(lists)).
 :-use_module(library(system)).
+:- use_module(library(random)).
+
 
 % Main function
 % Calls the initial functions

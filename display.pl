@@ -105,4 +105,5 @@ chooseDirection:-
     write('|        2. Down Right        |\n'),
     write('|        3. Down Left         |\n'),
     write('|        4. Up Right          |\n'),
-    write('|        5. Up Left           |\n\n').
+    write('|        5. Up Left           |\n'),
+    write('|        6. Choose stones     |\n').
