@@ -1,21 +1,9 @@
-% define the initial number of stones for each player
-stones(w, 12).
-stones(b, 12).
-
-% define the direction vectors for each player
-dir(w, 1, 0).
-dir(b, -1, 0).
-
-% define the win condition for each player
-win(w, 0).
-win(b, 8).
-
 % define the function that returns the other player
 other_player(+, o).
 other_player(o, +).
 
 list(List) :-
-  List = [0, 1, 2, 3, 4, 5].
+  List = [0, 1, 2, 3, 4, 5, 1922].
 
 % define the possible movements for a given stone
 direction(0, [X,Y], [X1,Y1], _, _, _) :- X1 is X+2, Y1 is Y.
@@ -30,6 +18,8 @@ direction(6, _, _, Board, Player, Flag) :-
 direction(6, _, _, Board, Player, Flag) :-
     Flag == 1,
     game_pvc(Board, Player, Flag).
+direction(1922, _, _, Board, Player, Flag) :-
+    game_bot(Board, Player, Flag).
 
 direction1(0, [X,Y], [X1,Y1]) :- X1 is X+3, Y1 is Y.
 direction1(1, [X,Y], [X1,Y1]) :- X1 is X-1, Y1 is Y.
@@ -91,21 +81,22 @@ traverse_matrix(Matrix, X, Y, Char) :-
 
 check_dir(Board, Option, Player, Flag, X1, Y1, X2, Y2, X3, Y3) :-
     direction(Option, [X1, Y1], [X1_2, Y1_2], Board, Player, Flag),
+    other_player(Player, OtherPlayer),
         (
             traverse_matrix(Board, X1_2, Y1_2, '_');
-            traverse_matrix(Board, X1_2, Y1_2, other_player(Player));
+            traverse_matrix(Board, X1_2, Y1_2, OtherPlayer);
             (X1_2 == X2, Y1_2 == Y2); (X1_2 == X3, Y1_2 == Y3)
         ),
     direction(Option, [X2, Y2], [X2_2, Y2_2], Board, Player, Flag),
         (
             traverse_matrix(Board, X2_2, Y2_2, '_');
-            traverse_matrix(Board, X2_2, Y2_2, other_player(Player));
+            traverse_matrix(Board, X2_2, Y2_2, OtherPlayer);
             (X2_2 == X1, Y2_2 == Y1); (X2_2 == X3, Y2_2 == Y3)
         ),
     direction(Option, [X3, Y3], [X3_2, Y3_2], Board, Player, Flag),
         (
             traverse_matrix(Board, X3_2, Y3_2, '_');
-            traverse_matrix(Board, X3_2, Y3_2, other_player(Player));
+            traverse_matrix(Board, X3_2, Y3_2, OtherPlayer);
             (X3_2 == X1, Y3_2 == Y1); (X3_2 == X2, Y3_2 == Y2)
         ).
 
@@ -162,4 +153,5 @@ win_condition(Board, Player) :-
         (
             nth0(9, Board, Row),
             member('o', Row)
-        ).
+        ),
+    play.

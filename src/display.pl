@@ -121,7 +121,7 @@ display_rules:-
     write('|           from the opponent, those stones are captured and removed         |'), nl,
     write('|           from the board.                                                  |'), nl,
     write('|____________________________________________________________________________|'), nl,
-    display_menu.
+    play.
 
 chooseDirection:-
     write(' ----- Piece Directions -----\n\n'),
